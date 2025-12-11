@@ -11,7 +11,7 @@ set(SFML_DIR "D:/libraries/sfml/SFML-2.5.1-windows-vc15-64-bit/SFML-2.5.1/lib/cm
 find_package(SFML 2.5 COMPONENTS graphics window system REQUIRED)
 
 # Create the executable from source files
-add_executable(Tetris main.cpp Map.cpp)
+add_executable(Tetris main.cpp Map.cpp Figure.cpp Square.cpp)
 
 # Link the SFML libraries to the executable
 target_link_libraries(Tetris PRIVATE sfml-graphics sfml-window sfml-system)

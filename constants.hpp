@@ -3,6 +3,14 @@
 
 /*============================================================================*/
 
+enum class Direction
+{
+    Up,
+    Left,
+    Right,
+    Down 
+};
+
 constexpr int cols = 10;
 constexpr int rows = 20;
 

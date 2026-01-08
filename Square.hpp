@@ -1,19 +1,35 @@
 #pragma once
 
+/*============================================================================*/
+
 #include <iostream>
 #include "Figure.hpp"
+
+/*============================================================================*/
+
+extern bool needNewFigure; 
+
+/*============================================================================*/
 
 class Square : public Figure
 {
 
 public:
 
-    Square(sf::RenderWindow & window);
+    Square( sf::RenderWindow & window );
 
-    void setStartPosition();
-    virtual void drawFigure();
+    virtual void drawFigure() override;
 
-    virtual void moveFigure();
+    virtual void drawMainMatrix() override;
+    
+    virtual void moveFigure( Direction directon ) override;
+
+    virtual bool isPathClear( Direction direction ) override;
+
+    void markCellsOccupied();
+    void markCellsNotOccupied();
+
+    void tempFunction( ); //delete me soon
 
 private:
 

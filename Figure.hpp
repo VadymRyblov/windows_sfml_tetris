@@ -13,7 +13,11 @@ public:
 
     virtual void drawFigure() = 0;
 
-    virtual void moveFigure() = 0;
+    virtual void moveFigure( Direction direction ) = 0;
+
+    virtual bool isPathClear( Direction direction ) = 0;
+
+    virtual void drawMainMatrix() = 0;
 
 protected:
 
@@ -23,7 +27,12 @@ protected:
     int y4, x4;
 
     std::array< std::array< int, cols >, rows > currentPiece{};
+    std::array< std::array< int, cols >, rows > mainMatrix{};
+    
+    
     sf::RectangleShape cell();
 
     sf::RenderWindow & m_window;
+
+    Direction m_direction;
 };

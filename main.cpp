@@ -12,7 +12,7 @@
 constexpr int widthWindow = cols * blockSize + 2 * margin;
 constexpr int heightWindow = rows * blockSize + 2 * margin;
 
-sf::RenderWindow window( sf::VideoMode( widthWindow, heightWindow ), "Tetris" );
+sf::RenderWindow window( sf::VideoMode( sf::Vector2u( widthWindow, heightWindow ) ), "Tetris" );
 
 bool needNewFigure { false };
 
@@ -32,10 +32,9 @@ int main()
 
     while( window.isOpen() )
     {
-        sf::Event event;
-        while( window.pollEvent( event ) )
+        while( const std::optional event = window.pollEvent() )
         {
-            if( event.type == sf::Event::Closed )
+            if( event->is<sf::Event::Closed>() )
                 window.close();
 
             if( needNewFigure )
@@ -45,22 +44,22 @@ int main()
 
             }
 
-            if( event.type == sf::Event::KeyPressed )
+            if( const auto* keyPressed = event->getIf<sf::Event::KeyPressed>() )
             {
                 Direction dir;
 
-                switch( event.key.code )
+                switch( keyPressed->code )
                 {
-                    case sf::Keyboard::Down:
+                    case sf::Keyboard::Key::Down:
                         dir = Direction::Down;
                         break;
-                    case sf::Keyboard::Up:
+                    case sf::Keyboard::Key::Up:
                         dir = Direction::Up;
                         break;
-                    case sf::Keyboard::Left:
+                    case sf::Keyboard::Key::Left:
                         dir = Direction::Left;
                         break;
-                    case sf::Keyboard::Right:
+                    case sf::Keyboard::Key::Right:
                         dir = Direction::Right;
                         break;
                     default:

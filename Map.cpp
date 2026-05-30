@@ -24,10 +24,10 @@ void Map::drawGrid(sf::RenderWindow & _window)
         {
             float marginInside = 4.0f; // увеличенный отступ
             sf::RectangleShape cell(sf::Vector2f(blockSize - marginInside, blockSize - marginInside));
-            cell.setPosition(
+            cell.setPosition( sf::Vector2f(
                 margin + x * blockSize + marginInside / 2,
                 margin + y * blockSize + marginInside / 2
-            );
+            ) );
             cell.setOutlineThickness(1);
             cell.setOutlineColor(OUTLINE_COLOR);
             cell.setFillColor(GRID_COLOR);

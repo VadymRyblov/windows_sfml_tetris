@@ -39,28 +39,28 @@ void Square::drawFigure()
     cell.setOutlineColor(OUTLINE_COLOR);
     cell.setFillColor(sf::Color::Green);
 
-    cell.setPosition(
+    cell.setPosition( sf::Vector2f(
             margin + m_x1 * blockSize + marginInside2f
         ,   margin + m_y1 * blockSize + marginInside2f
-    );
+    ) );
     m_window.draw(cell);
 
-    cell.setPosition(
+    cell.setPosition( sf::Vector2f(
             margin + m_x2 * blockSize + marginInside2f
         ,   margin + m_y2 * blockSize + marginInside2f
-    );
+    ) );
     m_window.draw(cell);
 
-    cell.setPosition(
+    cell.setPosition( sf::Vector2f(
             margin + m_x3 * blockSize + marginInside2f
         ,   margin + m_y3 * blockSize + marginInside2f
-    );
+    ) );
     m_window.draw(cell);
 
-    cell.setPosition(
+    cell.setPosition( sf::Vector2f(
             margin + m_x4 * blockSize + marginInside2f
         ,   margin + m_y4 * blockSize + marginInside2f
-    );
+    ) );
     m_window.draw(cell);
 }
 
@@ -83,10 +83,10 @@ void Square::drawMainMatrix()
                 cell.setOutlineThickness(1);
                 cell.setOutlineColor(OUTLINE_COLOR);
                 cell.setFillColor(sf::Color::Green);
-                cell.setPosition(
+                cell.setPosition( sf::Vector2f(
                     margin + x * blockSize + marginInside2f,
                     margin + y * blockSize + marginInside2f
-                );
+                ) );
                 m_window.draw(cell);
             }
         }

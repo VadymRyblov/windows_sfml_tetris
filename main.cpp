@@ -13,6 +13,7 @@ constexpr int widthWindow = cols * blockSize + 2 * margin;
 constexpr int heightWindow = rows * blockSize + 2 * margin;
 
 sf::RenderWindow window( sf::VideoMode( sf::Vector2u( widthWindow, heightWindow ) ), "Tetris" );
+Map map;
 
 bool needNewFigure { false };
 
@@ -20,29 +21,29 @@ bool needNewFigure { false };
 
 Figure * createNewFigure()
 {
-    return new Square( window );
+    return new Square( window, map.getMainMatrix() );
 }
 
 /*============================================================================*/
 
 int main()
 {
-    Map map;
     Figure * figure = createNewFigure();
 
     while( window.isOpen() )
     {
+        if( needNewFigure )
+        {
+            figure = createNewFigure();
+            needNewFigure = false;
+
+        }
+
         while( const std::optional event = window.pollEvent() )
         {
             if( event->is<sf::Event::Closed>() )
                 window.close();
 
-            if( needNewFigure )
-            {
-                figure = createNewFigure();
-                needNewFigure = false;
-
-            }
 
             if( const auto* keyPressed = event->getIf<sf::Event::KeyPressed>() )
             {
@@ -68,7 +69,7 @@ int main()
 
                 if ( figure->isPathClear( dir ) )
                 {
-                    figure->moveFigure( Direction::Down );
+                    figure->moveFigure();
                 }
             }
         }

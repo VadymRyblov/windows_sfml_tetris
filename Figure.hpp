@@ -9,11 +9,11 @@ class Figure
 
 public:
 
-    Figure( sf::RenderWindow & window );
+    Figure( sf::RenderWindow & window, std::array< std::array< int, cols >, rows > & mainMatrix );
 
     virtual void drawFigure() = 0;
 
-    virtual void moveFigure( Direction direction ) = 0;
+    virtual void moveFigure() = 0;
 
     virtual bool isPathClear( Direction direction ) = 0;
 
@@ -27,8 +27,7 @@ protected:
     int y4, x4;
 
     std::array< std::array< int, cols >, rows > currentPiece{};
-    std::array< std::array< int, cols >, rows > mainMatrix{};
-    
+    std::array< std::array< int, cols >, rows > & m_mainMatrix;
     
     sf::RectangleShape cell();
 

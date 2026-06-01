@@ -2,7 +2,7 @@
 
 /*============================================================================*/
 
-Figure::Figure( sf::RenderWindow & window ): m_window(window)
+Figure::Figure( sf::RenderWindow & window, std::array< std::array< int, cols >, rows > & mainMatrix ): m_window(window), m_mainMatrix(mainMatrix)
 {
 }
 

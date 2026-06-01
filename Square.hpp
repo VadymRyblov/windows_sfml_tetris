@@ -16,13 +16,13 @@ class Square : public Figure
 
 public:
 
-    Square( sf::RenderWindow & window );
+    Square( sf::RenderWindow & window, std::array< std::array< int, cols >, rows > & mainMatrix);
 
     virtual void drawFigure() override;
 
     virtual void drawMainMatrix() override;
     
-    virtual void moveFigure( Direction directon ) override;
+    virtual void moveFigure() override;
 
     virtual bool isPathClear( Direction direction ) override;
 

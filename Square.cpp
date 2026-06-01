@@ -2,7 +2,7 @@
 
 /*============================================================================*/
 
-Square::Square(sf::RenderWindow & window ) : Figure(window)
+Square::Square(sf::RenderWindow & window, std::array< std::array< int, cols >, rows > & mainMatrix ) : Figure(window, mainMatrix)
 {
     markCellsOccupied();
 }
@@ -76,9 +76,9 @@ void Square::drawMainMatrix()
     {
         for (int x = 0; x < cols; ++x)
         {
-            if (mainMatrix[y][x] == 1) // если ячейка занята
+            if (m_mainMatrix[y][x] == 1) // если ячейка занята
             {
-                std::cout << "Text1||||||||||||||||||" << std::endl;
+                // std::cout << "Text1||||||||||||||||||" << std::endl;
                 sf::RectangleShape cell(sf::Vector2f(blockSize - marginInside4f, blockSize - marginInside4f));
                 cell.setOutlineThickness(1);
                 cell.setOutlineColor(OUTLINE_COLOR);
@@ -101,7 +101,7 @@ void Square::tempFunction()
     {
         for (int x = 0; x < cols; x++)
         {
-            std::cout << currentPiece[y][x] << " ";
+            std::cout << m_mainMatrix[y][x] << " ";
         }
         std::cout << std::endl;
     }
@@ -109,12 +109,11 @@ void Square::tempFunction()
 
 /*============================================================================*/
 
-void Square::moveFigure( Direction direction )
+void Square::moveFigure()
 {
-    m_direction = direction;
     tempFunction();
     std::cout << "========================================" << std::endl;
-    
+
     markCellsNotOccupied();
 
     if( m_direction == Direction::Down )
@@ -124,11 +123,23 @@ void Square::moveFigure( Direction direction )
         m_y3++; //x3 is the same;
         m_y4++; //x4 is the same;
     }
+    else if( m_direction == Direction::Right )
+    {
+        m_x1++; //y1 is the same;
+        m_x2++; //y2 is the same;
+        m_x3++; //y3 is the same;
+        m_x4++; //y4 is the same;
+    }
+    else if( m_direction == Direction::Left )
+    {
+        m_x1--; //y1 is the same;
+        m_x2--; //y2 is the same;
+        m_x3--; //y3 is the same;
+        m_x4--; //y4 is the same;
+    }
 
     markCellsOccupied();
-
     drawFigure();
-
     tempFunction();
 }
 
@@ -137,27 +148,41 @@ void Square::moveFigure( Direction direction )
 bool Square::isPathClear( Direction dir )
 {
     m_direction = dir;
-   
+
     if( m_direction == Direction::Down )
     {
-        if( m_y3 == rows - 1 || m_y4 == rows - 1 )
+        if( m_y3 == rows - 1 || m_y4 == rows - 1 || m_mainMatrix[ m_y3 + 1 ][ m_x1 ] == 1 || m_mainMatrix[ m_y4 + 1 ][ m_x2 ] == 1 )
         {
-            //here
+            m_mainMatrix[ m_y1 ][ m_x1 ] = 1;
+            m_mainMatrix[ m_y2 ][ m_x2 ] = 1;
+            m_mainMatrix[ m_y3 ][ m_x3 ] = 1;
+            m_mainMatrix[ m_y4 ][ m_x4 ] = 1;
 
-            mainMatrix[ m_y1 ][ m_x1 ] = 1;
-            mainMatrix[ m_y2 ][ m_x2 ] = 1;
-            mainMatrix[ m_y3 ][ m_x3 ] = 1;
-            mainMatrix[ m_y4 ][ m_x4 ] = 1;
-
-
-            //there
-
-
-
-            std::cout << "I am here" << std::endl;
-            markCellsOccupied();
             needNewFigure = true;
-            
+            return false;
+        }
+    }
+    else if( m_direction == Direction::Right )
+    {
+        if( m_x3 == cols - 1 || m_x4 == cols - 1 || m_mainMatrix[ m_y2 ][ m_x2 + 1 ] == 1 || m_mainMatrix[ m_y4 ][ m_x4 + 1 ] == 1 )
+        {
+            currentPiece[ m_y1 ][ m_x1 ] = 1;
+            currentPiece[ m_y2 ][ m_x2 ] = 1;
+            currentPiece[ m_y3 ][ m_x3 ] = 1;
+            currentPiece[ m_y4 ][ m_x4 ] = 1;
+
+            return false;
+        }
+    }
+    else if( m_direction == Direction::Left )
+    {
+        if( m_x3 == 0 || m_x4 == 0 || m_mainMatrix[ m_y2 ][ m_x1 - 1 ] == 1 || m_mainMatrix[ m_y4 ][ m_x3 - 1 ] == 1 )
+        {
+            currentPiece[ m_y1 ][ m_x1 ] = 1;
+            currentPiece[ m_y2 ][ m_x2 ] = 1;
+            currentPiece[ m_y3 ][ m_x3 ] = 1;
+            currentPiece[ m_y4 ][ m_x4 ] = 1;
+
             return false;
         }
     }

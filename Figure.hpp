@@ -19,6 +19,10 @@ public:
 
     virtual void drawMainMatrix() = 0;
 
+    void clearFilledRow();
+
+    virtual ~Figure();
+
 protected:
 
     int y1, x1;

@@ -78,6 +78,7 @@ int main()
         map.drawGrid( window );
         figure->drawMainMatrix();
         figure->drawFigure();
+        figure->clearFilledRow();
         window.display();
     }
 

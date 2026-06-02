@@ -9,3 +9,5 @@ find_package(SFML 3 COMPONENTS Graphics REQUIRED)
 add_executable(Tetris main.cpp Map.cpp Figure.cpp Square.cpp)
 
 target_link_libraries(Tetris PRIVATE SFML::Graphics)
+
+target_compile_options(Tetris PRIVATE -Wall -Wextra -Wunused)

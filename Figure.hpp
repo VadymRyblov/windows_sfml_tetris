@@ -1,8 +1,12 @@
 #pragma once
 
+/*============================================================================*/
+
 #include <iostream>
 #include <array>
 #include "constants.hpp"
+
+/*============================================================================*/
 
 class Figure
 {
@@ -11,15 +15,19 @@ public:
 
     Figure( sf::RenderWindow & window, std::array< std::array< int, cols >, rows > & mainMatrix );
 
-    virtual void drawFigure() = 0;
+    void markCellsOccupied();
+    void markCellsNotOccupied();
 
-    virtual void moveFigure() = 0;
-
-    virtual bool isPathClear( Direction direction ) = 0;
-
-    virtual void drawMainMatrix() = 0;
+    void drawFigure();
+    void moveFigure();
 
     void clearFilledRow();
+    void drawMainMatrix();
+
+    void tempFunction( ); //delete it soon
+
+    virtual void initializeCoordinates() = 0;
+    virtual bool isPathClear( Direction direction ) = 0;
 
     virtual ~Figure();
 

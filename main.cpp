@@ -1,27 +1,43 @@
 #include <SFML/Graphics.hpp>
 #include <array>
+#include <random>
 #include <iostream>
 
 #include "constants.hpp"
 #include "Map.hpp"
 #include "Figure.hpp"
 #include "Square.hpp"
+#include "Line.hpp"
 
 /*============================================================================*/
 
-constexpr int widthWindow = cols * blockSize + 2 * margin;
-constexpr int heightWindow = rows * blockSize + 2 * margin;
-
 sf::RenderWindow window( sf::VideoMode( sf::Vector2u( widthWindow, heightWindow ) ), "Tetris" );
 Map map;
-
 bool needNewFigure { false };
+
+/*============================================================================*/
+
+int getRandomNumber()
+{
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    std::uniform_int_distribution<int> dist(0, 1);
+
+    return dist(gen);
+}
 
 /*============================================================================*/
 
 Figure * createNewFigure()
 {
-    return new Square( window, map.getMainMatrix() );
+    int randomNumber = getRandomNumber();
+    switch( randomNumber )
+    {
+        case 0:
+            return new Square( window, map.getMainMatrix() );
+        default:
+            return new Line( window, map.getMainMatrix() );
+    }
 }
 
 /*============================================================================*/

@@ -1,8 +1,8 @@
-#include "Square.hpp"
+#include "Line.hpp"
 
 /*============================================================================*/
 
-Square::Square(sf::RenderWindow & window, std::array< std::array< int, cols >, rows > & mainMatrix ) : Figure(window, mainMatrix)
+Line::Line(sf::RenderWindow & window, std::array< std::array< int, cols >, rows > & mainMatrix ) : Figure(window, mainMatrix)
 {
     initializeCoordinates();
     markCellsOccupied();
@@ -10,24 +10,24 @@ Square::Square(sf::RenderWindow & window, std::array< std::array< int, cols >, r
 
 /*============================================================================*/
 
-void Square::initializeCoordinates()
+void Line::initializeCoordinates()
 {
     y1 = 0;
     x1 = cols / 2 - 1;
 
-    y2 = 0;
-    x2 = ( cols / 2 );
+    y2 = 1;
+    x2 = cols / 2 - 1;
 
-    y3 = 1;
+    y3 = 2;
     x3 = cols / 2 - 1;
 
-    y4 = 1;
-    x4 = ( cols / 2 ); //
+    y4 = 3;
+    x4 = cols / 2 - 1;
 }
 
 /*============================================================================*/
 
-bool Square::isPathClear( Direction dir )
+bool Line::isPathClear( Direction dir )
 {
     m_direction = dir;
 

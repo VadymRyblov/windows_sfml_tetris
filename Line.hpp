@@ -11,12 +11,12 @@ extern bool needNewFigure;
 
 /*============================================================================*/
 
-class Square : public Figure
+class Line : public Figure
 {
 
 public:
 
-    Square( sf::RenderWindow & window, std::array< std::array< int, cols >, rows > & mainMatrix);
+    Line( sf::RenderWindow & window, std::array< std::array< int, cols >, rows > & mainMatrix);
 
     virtual void initializeCoordinates() override;
     virtual bool isPathClear( Direction direction ) override;

@@ -8,6 +8,99 @@ Figure::Figure( sf::RenderWindow & window, std::array< std::array< int, cols >, 
 
 /*============================================================================*/
 
+void Figure::markCellsOccupied()
+{
+    currentPiece[ y1 ][ x1 ] = 1;
+    currentPiece[ y2 ][ x2 ] = 1;
+    currentPiece[ y3 ][ x3 ] = 1;
+    currentPiece[ y4 ][ x4 ] = 1;
+}
+
+/*============================================================================*/
+
+void Figure::markCellsNotOccupied()
+{
+    currentPiece[ y1 ][ x1 ] = 0;
+    currentPiece[ y2 ][ x2 ] = 0;
+    currentPiece[ y3 ][ x3 ] = 0;
+    currentPiece[ y4 ][ x4 ] = 0;
+}
+
+/*============================================================================*/
+
+void Figure::drawFigure()
+{
+    float marginInside4f = 4.0f;
+    float marginInside2f = 2.0f;
+
+    sf::RectangleShape cell(sf::Vector2f(blockSize - marginInside4f, blockSize - marginInside4f));
+    cell.setOutlineThickness(1);
+    cell.setOutlineColor(OUTLINE_COLOR);
+    cell.setFillColor(sf::Color::Green);
+
+    cell.setPosition( sf::Vector2f(
+            margin + x1 * blockSize + marginInside2f
+        ,   margin + y1 * blockSize + marginInside2f
+    ) );
+    m_window.draw(cell);
+
+    cell.setPosition( sf::Vector2f(
+            margin + x2 * blockSize + marginInside2f
+        ,   margin + y2 * blockSize + marginInside2f
+    ) );
+    m_window.draw(cell);
+
+    cell.setPosition( sf::Vector2f(
+            margin + x3 * blockSize + marginInside2f
+        ,   margin + y3 * blockSize + marginInside2f
+    ) );
+    m_window.draw(cell);
+
+    cell.setPosition( sf::Vector2f(
+            margin + x4 * blockSize + marginInside2f
+        ,   margin + y4 * blockSize + marginInside2f
+    ) );
+    m_window.draw(cell);
+}
+
+/*============================================================================*/
+
+void Figure::moveFigure()
+{
+    tempFunction();
+    std::cout << "========================================" << std::endl;
+
+    markCellsNotOccupied();
+
+    if( m_direction == Direction::Down )
+    {
+        y1++; //x1 is the same;
+        y2++; //x2 is the same;
+        y3++; //x3 is the same;
+        y4++; //x4 is the same;
+    }
+    else if( m_direction == Direction::Right )
+    {
+        x1++; //y1 is the same;
+        x2++; //y2 is the same;
+        x3++; //y3 is the same;
+        x4++; //y4 is the same;
+    }
+    else if( m_direction == Direction::Left )
+    {
+        x1--; //y1 is the same;
+        x2--; //y2 is the same;
+        x3--; //y3 is the same;
+        x4--; //y4 is the same;
+    }
+
+    markCellsOccupied();
+    drawFigure();
+    tempFunction();
+}
+
+/*============================================================================*/
+
 void Figure::clearFilledRow()
 {
     for (int i = 0; i < rows; ++i )
@@ -29,6 +122,49 @@ void Figure::clearFilledRow()
                 m_mainMatrix[j] = m_mainMatrix[j-1];
             }
         }
+    }
+}
+
+/*============================================================================*/
+
+void Figure::drawMainMatrix()
+{
+    float marginInside4f = 4.0f;
+    float marginInside2f = 2.0f;
+
+    // Проходим по всем ячейкам
+    for (int y = 0; y < rows; ++y)
+    {
+        for (int x = 0; x < cols; ++x)
+        {
+            if (m_mainMatrix[y][x] == 1) // если ячейка занята
+            {
+                // std::cout << "Text1||||||||||||||||||" << std::endl;
+                sf::RectangleShape cell(sf::Vector2f(blockSize - marginInside4f, blockSize - marginInside4f));
+                cell.setOutlineThickness(1);
+                cell.setOutlineColor(OUTLINE_COLOR);
+                cell.setFillColor(sf::Color::Green);
+                cell.setPosition( sf::Vector2f(
+                    margin + x * blockSize + marginInside2f,
+                    margin + y * blockSize + marginInside2f
+                ) );
+                m_window.draw(cell);
+            }
+        }
+    }
+}
+
+/*============================================================================*/
+
+void Figure::tempFunction()
+{
+    for (int y = 0; y < rows; y++)
+    {
+        for (int x = 0; x < cols; x++)
+        {
+            std::cout << m_mainMatrix[y][x] << " ";
+        }
+        std::cout << std::endl;
     }
 }
 

@@ -33,7 +33,11 @@ bool Square::isPathClear( Direction dir )
 
     if( m_direction == Direction::Down )
     {
-        if( y3 == rows - 1 || y4 == rows - 1 || m_mainMatrix[ y3 + 1 ][ x1 ] == 1 || m_mainMatrix[ y4 + 1 ][ x2 ] == 1 )
+        if(     y3 == rows - 1
+            ||  y4 == rows - 1
+            ||  m_mainMatrix[ y3 + 1 ][ x3 ] == 1
+            ||  m_mainMatrix[ y4 + 1 ][ x4 ] == 1
+        )
         {
             m_mainMatrix[ y1 ][ x1 ] = 1;
             m_mainMatrix[ y2 ][ x2 ] = 1;
@@ -46,7 +50,11 @@ bool Square::isPathClear( Direction dir )
     }
     else if( m_direction == Direction::Right )
     {
-        if( x3 == cols - 1 || x4 == cols - 1 || m_mainMatrix[ y2 ][ x2 + 1 ] == 1 || m_mainMatrix[ y4 ][ x4 + 1 ] == 1 )
+        if(     x3 == cols - 1
+            ||  x4 == cols - 1
+            ||  m_mainMatrix[ y2 ][ x2 + 1 ] == 1
+            ||  m_mainMatrix[ y4 ][ x4 + 1 ] == 1
+        )
         {
             currentPiece[ y1 ][ x1 ] = 1;
             currentPiece[ y2 ][ x2 ] = 1;
@@ -58,7 +66,11 @@ bool Square::isPathClear( Direction dir )
     }
     else if( m_direction == Direction::Left )
     {
-        if( x3 == 0 || x4 == 0 || m_mainMatrix[ y2 ][ x1 - 1 ] == 1 || m_mainMatrix[ y4 ][ x3 - 1 ] == 1 )
+        if(     x1 == 0
+            ||  x3 == 0
+            ||  m_mainMatrix[ y1 ][ x1 - 1 ] == 1
+            ||  m_mainMatrix[ y3 ][ x3 - 1 ] == 1
+        )
         {
             currentPiece[ y1 ][ x1 ] = 1;
             currentPiece[ y2 ][ x2 ] = 1;

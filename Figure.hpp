@@ -38,12 +38,11 @@ protected:
     int y3, x3;
     int y4, x4;
 
-    std::array< std::array< int, cols >, rows > currentPiece{};
-    std::array< std::array< int, cols >, rows > & m_mainMatrix;
-    
-    sf::RectangleShape cell();
-
     sf::RenderWindow & m_window;
 
+    std::array< std::array< int, cols >, rows > currentPiece{};
+    std::array< std::array< int, cols >, rows > & m_mainMatrix;
+
+    sf::RectangleShape cell();
     Direction m_direction;
 };

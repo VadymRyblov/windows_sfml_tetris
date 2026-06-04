@@ -45,14 +45,26 @@ Figure * createNewFigure()
 int main()
 {
     Figure * figure = createNewFigure();
+    sf::Clock clock;
 
     while( window.isOpen() )
     {
+        sf::Time elapsed = clock.getElapsedTime();
+
         if( needNewFigure )
         {
             figure = createNewFigure();
             needNewFigure = false;
 
+        }
+
+        if ( elapsed >= sf::milliseconds(500) )
+        {
+            if ( figure->isPathClear( Direction::Down ) )
+            {
+                figure->moveFigure();
+                clock.restart();
+            }
         }
 
         while( const std::optional event = window.pollEvent() )

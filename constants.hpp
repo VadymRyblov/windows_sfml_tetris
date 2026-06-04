@@ -11,6 +11,8 @@ enum class Direction
     Down 
 };
 
+/*============================================================================*/
+
 constexpr int cols = 10;
 constexpr int rows = 20;
 

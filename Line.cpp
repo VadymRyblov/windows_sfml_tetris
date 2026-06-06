@@ -89,3 +89,100 @@ bool Line::isPathClear( Direction dir )
 }
 
 /*============================================================================*/
+
+bool Line::isPossibleHorizontalRotation()
+{
+    if(
+        x2 <= 0 ||
+        x2 + 2 >= cols
+    )
+    {
+        return false;
+    }
+    else if (
+            m_mainMatrix[ y2 ][ x2 - 1 ] == 0 &&
+            m_mainMatrix[ y2 ][ x2 ] == 0 &&
+            m_mainMatrix[ y2 ][ x2 + 1 ] == 0 &&
+            m_mainMatrix[ y2 ][ x2 + 2 ] == 0
+    )
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool Line::isPossibleVerticalRotation()
+{
+    if(
+        m_mainMatrix[ y2 - 1 ][ x2 ] == 0 &&
+        m_mainMatrix[ y2 ][ x2 ] == 0 &&
+        m_mainMatrix[ y2 + 1 ][ x2 ] == 0 &&
+        m_mainMatrix[ y2 + 2 ][ x2 ] == 0
+    )
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+/*============================================================================*/
+
+void Line::rotateFigure()
+{
+    if( !isFigureRotated )
+    {
+        if ( isPossibleHorizontalRotation() )
+        {
+            setCoordinatesHorizontal();
+            isFigureRotated = !isFigureRotated;
+        }
+    }
+    else
+    {
+        if( isPossibleVerticalRotation() )
+        {
+            setCoordinatesVertical();
+            isFigureRotated = !isFigureRotated;
+        }
+    }
+}
+
+/*============================================================================*/
+
+void Line::setCoordinatesHorizontal()
+{
+    y1 = y1 + 1;
+    x1 = x1 - 1;
+
+    //y2 and x2 is our pivot
+
+    y3 = y3 - 1;
+    x3 = x3 + 1;
+
+    y4 = y4 - 2;
+    x4 = x4 + 2;
+}
+
+/*============================================================================*/
+
+void Line::setCoordinatesVertical()
+{
+    y1 = y1 - 1;
+    x1 = x1 + 1;
+
+    //y2 and x2 is our pivot
+
+    y3 = y3 + 1;
+    x3 = x3 - 1;
+
+    y4 = y2 + 2;
+    x4 = x4 - 2;
+}
+
+/*============================================================================*/

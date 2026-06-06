@@ -91,6 +91,10 @@ int main()
                     case sf::Keyboard::Key::Right:
                         dir = Direction::Right;
                         break;
+                    case sf::Keyboard::Key::Space:
+                        figure->rotateFigure();
+                        continue;
+                        break;
                     default:
                         return 0;
                 }

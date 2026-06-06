@@ -20,7 +20,16 @@ public:
 
     virtual void initializeCoordinates() override;
     virtual bool isPathClear( Direction direction ) override;
+    virtual void rotateFigure() override;
 
 private:
+
+    bool isFigureRotated = { false };
+
+    bool isPossibleHorizontalRotation();
+    bool isPossibleVerticalRotation();
+
+    void setCoordinatesHorizontal();
+    void setCoordinatesVertical();
 
 };

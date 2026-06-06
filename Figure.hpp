@@ -20,6 +20,7 @@ public:
 
     void drawFigure();
     void moveFigure();
+    virtual void rotateFigure();
 
     void clearFilledRow();
     void drawMainMatrix();

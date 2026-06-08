@@ -33,7 +33,12 @@ bool Line::isPathClear( Direction dir )
 
     if( m_direction == Direction::Down )
     {
-        if( y4 == rows - 1 || m_mainMatrix[ y4 + 1 ][ x4 ] == 1 )
+        if(     y4 == rows - 1
+            ||  m_mainMatrix[ y4 + 1 ][ x4 ] == 1
+            ||  m_mainMatrix[ y3 + 1 ][ x3 ] == 1
+            ||  m_mainMatrix[ y2 + 1 ][ x2 ] == 1
+            ||  m_mainMatrix[ y1 + 1 ][ x1 ] == 1
+        )
         {
             m_mainMatrix[ y1 ][ x1 ] = 1;
             m_mainMatrix[ y2 ][ x2 ] = 1;
@@ -140,7 +145,7 @@ void Line::rotateFigure()
         if ( isPossibleHorizontalRotation() )
         {
             setCoordinatesHorizontal();
-            isFigureRotated = !isFigureRotated;
+            isFigureRotated = true;
         }
     }
     else
@@ -148,7 +153,7 @@ void Line::rotateFigure()
         if( isPossibleVerticalRotation() )
         {
             setCoordinatesVertical();
-            isFigureRotated = !isFigureRotated;
+            isFigureRotated = false;
         }
     }
 }

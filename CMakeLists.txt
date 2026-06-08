@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(SFML 3 COMPONENTS Graphics REQUIRED)
 
-add_executable(Tetris main.cpp Map.cpp Figure.cpp Square.cpp Line.cpp)
+add_executable(Tetris main.cpp Map.cpp Figure.cpp Square.cpp Line.cpp TFigure.cpp)
 
 target_link_libraries(Tetris PRIVATE SFML::Graphics)
 

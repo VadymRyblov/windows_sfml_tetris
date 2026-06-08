@@ -8,6 +8,7 @@
 #include "Figure.hpp"
 #include "Square.hpp"
 #include "Line.hpp"
+#include "TFigure.hpp"
 
 /*============================================================================*/
 
@@ -21,7 +22,7 @@ int getRandomNumber()
 {
     static std::random_device rd;
     static std::mt19937 gen(rd());
-    std::uniform_int_distribution<int> dist(0, 1);
+    std::uniform_int_distribution<int> dist(0, 2);
 
     return dist(gen);
 }
@@ -35,8 +36,10 @@ Figure * createNewFigure()
     {
         case 0:
             return new Square( window, map.getMainMatrix() );
-        default:
+        case 1:
             return new Line( window, map.getMainMatrix() );
+        default:
+            return new TFigure( window, map.getMainMatrix() );
     }
 }
 
@@ -112,6 +115,7 @@ int main()
         figure->drawFigure();
         figure->clearFilledRow();
         window.display();
+        sf::sleep(sf::milliseconds(16));
     }
 
     delete figure;

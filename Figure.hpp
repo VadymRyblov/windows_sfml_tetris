@@ -22,7 +22,7 @@ public:
     void moveFigure();
     virtual void rotateFigure();
 
-    void clearFilledRow();
+    void clearFilledRow( std::size_t & scoreCounter );
     void drawMainMatrix();
 
     void tempFunction( ); //delete it soon

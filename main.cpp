@@ -45,10 +45,43 @@ Figure * createNewFigure()
 
 /*============================================================================*/
 
+sf::Font & getFont()
+{
+    static sf::Font font;
+    static bool isLoaded = false;
+
+    if ( !isLoaded )
+    {
+        if ( !font.openFromFile("../fonts/DynaPuff-VariableFont_wdth,wght.ttf") )
+        {
+            std::cerr << "Error: Failed to load font Roboto_Condensed-Black.ttf" << std::endl;
+        }
+        isLoaded = true;
+    }
+    return font;
+}
+
+/*============================================================================*/
+
+sf::Text createScoreText(const sf::Font & font)
+{
+    sf::Text text(font);
+    text.setCharacterSize(26);
+    text.setFillColor(sf::Color::White);
+    text.setPosition(sf::Vector2f( margin + 5, margin - 45 ) );
+
+    return text;
+}
+
+/*============================================================================*/
+
 int main()
 {
     Figure * figure = createNewFigure();
     sf::Clock clock;
+
+    std::size_t scoreCounter = 0;
+    sf::Text text = createScoreText( getFont() );
 
     while( window.isOpen() )
     {
@@ -113,7 +146,11 @@ int main()
         map.drawGrid( window );
         figure->drawMainMatrix();
         figure->drawFigure();
-        figure->clearFilledRow();
+        figure->clearFilledRow( scoreCounter );
+
+        text.setString("Score: " + std::to_string(scoreCounter));
+        window.draw(text);
+
         window.display();
         sf::sleep(sf::milliseconds(16));
     }

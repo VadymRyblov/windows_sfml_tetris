@@ -17,7 +17,7 @@ constexpr int cols = 10;
 constexpr int rows = 20;
 
 constexpr int blockSize = 36;
-constexpr int margin = 36;
+constexpr int margin = 100;
 
 constexpr int widthWindow = cols * blockSize + 2 * margin;
 constexpr int heightWindow = rows * blockSize + 2 * margin;

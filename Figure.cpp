@@ -101,7 +101,7 @@ void Figure::moveFigure()
 
 /*============================================================================*/
 
-void Figure::clearFilledRow()
+void Figure::clearFilledRow( std::size_t & scoreCounter )
 {
     for (int i = 0; i < rows; ++i )
     {
@@ -121,6 +121,7 @@ void Figure::clearFilledRow()
             {
                 m_mainMatrix[j] = m_mainMatrix[j-1];
             }
+            scoreCounter++;
         }
     }
 }

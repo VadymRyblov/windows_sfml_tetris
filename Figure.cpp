@@ -2,7 +2,11 @@
 
 /*============================================================================*/
 
-Figure::Figure( sf::RenderWindow & window, std::array< std::array< int, cols >, rows > & mainMatrix ): m_window(window), m_mainMatrix(mainMatrix)
+Figure::Figure(
+        sf::RenderWindow & window
+    ,   std::array< std::array< int, cols >, rows > & mainMatrix
+    ,   std::array< std::array< sf::Color, cols >, rows > & coloredFiguresMatrix
+): m_window(window), m_mainMatrix(mainMatrix), m_coloredFiguresMatrix(coloredFiguresMatrix)
 {
 }
 
@@ -36,7 +40,7 @@ void Figure::drawFigure()
     sf::RectangleShape cell(sf::Vector2f(blockSize - marginInside4f, blockSize - marginInside4f));
     cell.setOutlineThickness(1);
     cell.setOutlineColor(OUTLINE_COLOR);
-    cell.setFillColor(sf::Color::Green);
+    cell.setFillColor( m_color );
 
     cell.setPosition( sf::Vector2f(
             margin + x1 * blockSize + marginInside2f
@@ -67,7 +71,7 @@ void Figure::drawFigure()
 
 void Figure::moveFigure()
 {
-    tempFunction();
+    // tempFunctionMainMatrix();
     std::cout << "========================================" << std::endl;
 
     markCellsNotOccupied();
@@ -96,7 +100,10 @@ void Figure::moveFigure()
 
     markCellsOccupied();
     drawFigure();
-    tempFunction();
+
+    // tempFunctionMainMatrix();
+    tempFunctionColoredMatrix();
+
 }
 
 /*============================================================================*/
@@ -144,7 +151,7 @@ void Figure::drawMainMatrix()
                 sf::RectangleShape cell(sf::Vector2f(blockSize - marginInside4f, blockSize - marginInside4f));
                 cell.setOutlineThickness(1);
                 cell.setOutlineColor(OUTLINE_COLOR);
-                cell.setFillColor(sf::Color::Green);
+                cell.setFillColor( m_coloredFiguresMatrix[y][x] );
                 cell.setPosition( sf::Vector2f(
                     margin + x * blockSize + marginInside2f,
                     margin + y * blockSize + marginInside2f
@@ -157,7 +164,7 @@ void Figure::drawMainMatrix()
 
 /*============================================================================*/
 
-void Figure::tempFunction()
+void Figure::tempFunctionMainMatrix()
 {
     for (int y = 0; y < rows; y++)
     {
@@ -171,10 +178,57 @@ void Figure::tempFunction()
 
 /*============================================================================*/
 
-void Figure::rotateFigure()
+void Figure::fillMainMatrix()
 {
+    m_mainMatrix[ y1 ][ x1 ] = 1;
+    m_mainMatrix[ y2 ][ x2 ] = 1;
+    m_mainMatrix[ y3 ][ x3 ] = 1;
+    m_mainMatrix[ y4 ][ x4 ] = 1;
 }
 
 /*============================================================================*/
 
-Figure::~Figure() {}
+void Figure::fillCurrentPiece()
+{
+    currentPiece[ y1 ][ x1 ] = 1;
+    currentPiece[ y2 ][ x2 ] = 1;
+    currentPiece[ y3 ][ x3 ] = 1;
+    currentPiece[ y4 ][ x4 ] = 1;
+}
+
+/*============================================================================*/
+
+void Figure::fillColoredMatrix()
+{
+    m_coloredFiguresMatrix[y1][x1] = m_color;
+    m_coloredFiguresMatrix[y2][x2] = m_color;
+    m_coloredFiguresMatrix[y3][x3] = m_color;
+    m_coloredFiguresMatrix[y4][x4] = m_color;
+}
+
+/*============================================================================*/
+
+void Figure::tempFunctionColoredMatrix()
+{
+    std::cout << "This is my Colored matrix:" << std::endl;
+    for (int y = 0; y < rows; y++)
+    {
+        for (int x = 0; x < cols; x++)
+        {
+            std::cout << "("
+                << static_cast<int>(m_coloredFiguresMatrix[y][x].r) << ","
+                << static_cast<int>(m_coloredFiguresMatrix[y][x].g) << ") ";
+        }
+        std::cout << std::endl;
+    }
+}
+
+/*============================================================================*/
+
+void Figure::rotateFigure(){}
+
+/*============================================================================*/
+
+Figure::~Figure(){}
+
+/*============================================================================*/

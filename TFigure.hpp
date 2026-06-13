@@ -7,7 +7,7 @@
 
 /*============================================================================*/
 
-extern bool needNewFigure; 
+extern bool needNewFigure;
 
 /*============================================================================*/
 
@@ -16,7 +16,11 @@ class TFigure : public Figure
 
 public:
 
-    TFigure( sf::RenderWindow & window, std::array< std::array< int, cols >, rows > & mainMatrix);
+    TFigure(
+            sf::RenderWindow & window
+        ,   std::array< std::array< int, cols >, rows > & mainMatrix
+        ,   std::array< std::array< sf::Color, cols >, rows > & coloredFiguresMatrix
+    );
 
     virtual void initializeCoordinates() override;
     virtual bool isPathClear( Direction direction ) override;

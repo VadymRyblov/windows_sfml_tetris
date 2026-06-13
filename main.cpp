@@ -2,6 +2,7 @@
 #include <array>
 #include <random>
 #include <iostream>
+#include <memory>
 
 #include "constants.hpp"
 #include "Map.hpp"
@@ -29,17 +30,19 @@ int getRandomNumber()
 
 /*============================================================================*/
 
-Figure * createNewFigure()
+std::unique_ptr<Figure> createNewFigure()
 {
     int randomNumber = getRandomNumber();
     switch( randomNumber )
     {
         case 0:
-            return new Square( window, map.getMainMatrix() );
+            return std::make_unique<Square>( window, map.getMainMatrix(), map.getColoredMatrix() );
         case 1:
-            return new Line( window, map.getMainMatrix() );
+            return std::make_unique<Line>( window, map.getMainMatrix(), map.getColoredMatrix() );
+        case 2:
+            return std::make_unique<TFigure>( window, map.getMainMatrix(), map.getColoredMatrix() );
         default:
-            return new TFigure( window, map.getMainMatrix() );
+            return 0;
     }
 }
 
@@ -77,7 +80,7 @@ sf::Text createScoreText(const sf::Font & font)
 
 int main()
 {
-    Figure * figure = createNewFigure();
+    std::unique_ptr<Figure> figure = createNewFigure();
     sf::Clock clock;
 
     std::size_t scoreCounter = 0;
@@ -154,8 +157,6 @@ int main()
         window.display();
         sf::sleep(sf::milliseconds(16));
     }
-
-    delete figure;
 
     return 0;
 }

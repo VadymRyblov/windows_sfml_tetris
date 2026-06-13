@@ -16,6 +16,13 @@ std::array< std::array < int, cols >, rows > & Map::getMainMatrix()
 
 /*============================================================================*/
 
+std::array< std::array < sf::Color, cols >, rows > & Map::getColoredMatrix()
+{
+    return coloredFiguresMatrix;
+}
+
+/*============================================================================*/
+
 void Map::drawGrid(sf::RenderWindow & _window)
 {
     for (int y = 0; y < rows; y++)

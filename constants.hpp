@@ -8,7 +8,17 @@ enum class Direction
     Up,
     Left,
     Right,
-    Down 
+    Down
+};
+
+/*============================================================================*/
+
+enum class ColorsFigure
+{
+    NoColored,
+    Yellow,
+    Green,
+    Magenta
 };
 
 /*============================================================================*/

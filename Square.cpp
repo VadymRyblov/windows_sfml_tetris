@@ -2,8 +2,13 @@
 
 /*============================================================================*/
 
-Square::Square(sf::RenderWindow & window, std::array< std::array< int, cols >, rows > & mainMatrix ) : Figure(window, mainMatrix)
+Square::Square(
+            sf::RenderWindow & window
+        ,   std::array< std::array< int, cols >, rows > & mainMatrix
+        ,   std::array< std::array< sf::Color, cols >, rows > & coloredFiguresMatrix
+    ) : Figure(window, mainMatrix, coloredFiguresMatrix)
 {
+    m_color = sf::Color::Yellow;
     initializeCoordinates();
     markCellsOccupied();
 }
@@ -39,10 +44,8 @@ bool Square::isPathClear( Direction dir )
             ||  m_mainMatrix[ y4 + 1 ][ x4 ] == 1
         )
         {
-            m_mainMatrix[ y1 ][ x1 ] = 1;
-            m_mainMatrix[ y2 ][ x2 ] = 1;
-            m_mainMatrix[ y3 ][ x3 ] = 1;
-            m_mainMatrix[ y4 ][ x4 ] = 1;
+            fillMainMatrix();
+            fillColoredMatrix();
 
             needNewFigure = true;
             return false;
@@ -56,11 +59,7 @@ bool Square::isPathClear( Direction dir )
             ||  m_mainMatrix[ y4 ][ x4 + 1 ] == 1
         )
         {
-            currentPiece[ y1 ][ x1 ] = 1;
-            currentPiece[ y2 ][ x2 ] = 1;
-            currentPiece[ y3 ][ x3 ] = 1;
-            currentPiece[ y4 ][ x4 ] = 1;
-
+            fillCurrentPiece();
             return false;
         }
     }
@@ -72,11 +71,7 @@ bool Square::isPathClear( Direction dir )
             ||  m_mainMatrix[ y3 ][ x3 - 1 ] == 1
         )
         {
-            currentPiece[ y1 ][ x1 ] = 1;
-            currentPiece[ y2 ][ x2 ] = 1;
-            currentPiece[ y3 ][ x3 ] = 1;
-            currentPiece[ y4 ][ x4 ] = 1;
-
+            fillCurrentPiece();
             return false;
         }
     }

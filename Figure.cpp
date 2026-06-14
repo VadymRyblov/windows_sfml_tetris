@@ -101,14 +101,14 @@ void Figure::moveFigure()
     markCellsOccupied();
     drawFigure();
 
-    // tempFunctionMainMatrix();
-    tempFunctionColoredMatrix();
+    tempFunctionMainMatrix();
+    // tempFunctionColoredMatrix();
 
 }
 
 /*============================================================================*/
 
-void Figure::clearFilledRow( std::size_t & scoreCounter )
+void Figure::clearFilledRow( std::size_t & scoreCounter ) //now
 {
     for (int i = 0; i < rows; ++i )
     {

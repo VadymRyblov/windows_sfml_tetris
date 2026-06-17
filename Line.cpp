@@ -100,10 +100,10 @@ bool Line::isPossibleHorizontalRotation()
         return false;
     }
     else if (
-            m_mainMatrix[ y2 ][ x2 - 1 ] == 0 &&
-            m_mainMatrix[ y2 ][ x2 ] == 0 &&
-            m_mainMatrix[ y2 ][ x2 + 1 ] == 0 &&
-            m_mainMatrix[ y2 ][ x2 + 2 ] == 0
+        m_mainMatrix[ y2 ][ x2 - 1 ] == 0 &&
+        m_mainMatrix[ y2 ][ x2 ] == 0 &&
+        m_mainMatrix[ y2 ][ x2 + 1 ] == 0 &&
+        m_mainMatrix[ y2 ][ x2 + 2 ] == 0
     )
     {
         return true;

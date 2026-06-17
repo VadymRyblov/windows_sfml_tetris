@@ -6,13 +6,19 @@ bool needNewFigure { false };
 
 /*============================================================================*/
 
-Game::Game() : window( sf::VideoMode( sf::Vector2u( widthWindow, heightWindow ) ), "Tetris" )
+Game::Game() :
+        window( sf::VideoMode( sf::Vector2u( widthWindow, heightWindow ) ), "Tetris" )
+    ,   scoreText(m_font)
+    ,   levelText(m_font)
 {
     if( !m_font.openFromFile("../fonts/DynaPuff-VariableFont_wdth,wght.ttf") )
     {
         std::cerr << "Error: Failed to load font" << std::endl;
     }
     figure = createNewFigure( getRandomNumber() );
+
+    scoreText = settingsText( 5, 45 );
+    levelText = settingsText( 150, 45 );
 }
 
 /*============================================================================*/
@@ -28,14 +34,12 @@ void Game::infiniteLoop()
 {
     sf::Clock clock;
 
-    std::size_t scoreCounter = 0;
-    sf::Text text = createScoreText( m_font );
-
     while( window.isOpen() )
     {
         sf::Time elapsed = clock.getElapsedTime();
 
         gameOverLogic();
+        gameLevelLogic();
 
         if( needNewFigure )
         {
@@ -43,7 +47,7 @@ void Game::infiniteLoop()
             needNewFigure = false;
         }
 
-        if ( elapsed >= sf::milliseconds(500) )
+        if ( elapsed >= sf::milliseconds( levelSpeeds[ gamelevel ] ) )
         {
             if ( figure->isPathClear( Direction::Down ) )
             {
@@ -96,8 +100,11 @@ void Game::infiniteLoop()
         figure->drawFigure();
         figure->clearFilledRow( scoreCounter );
 
-        text.setString("Score: " + std::to_string(scoreCounter));
-        window.draw(text);
+        scoreText.setString("Score: " + std::to_string(scoreCounter));
+        levelText.setString("Level: " + std::to_string(gamelevel + 1));
+
+        window.draw(scoreText);
+        window.draw(levelText);
 
         window.display();
         sf::sleep(sf::milliseconds(16));
@@ -117,12 +124,12 @@ int Game::getRandomNumber()
 
 /*============================================================================*/
 
-sf::Text Game::createScoreText(const sf::Font & font)
+sf::Text Game::settingsText( size_t x, size_t y )
 {
-    sf::Text text(font);
+    sf::Text text( m_font );
     text.setCharacterSize(26);
     text.setFillColor(sf::Color::White);
-    text.setPosition(sf::Vector2f( margin + 5, margin - 45 ) );
+    text.setPosition(sf::Vector2f( margin + x, margin - y ) );
 
     return text;
 }
@@ -179,6 +186,28 @@ void Game::gameOverLogic()
             window.display();
             sf::sleep(sf::milliseconds(16));
         }
+    }
+}
+
+/*============================================================================*/
+
+void Game::gameLevelLogic()
+{
+    if( scoreCounter >= 3 && scoreCounter < 6 )
+    {
+        gamelevel = 1;
+    }
+    else if( scoreCounter >= 6 && scoreCounter < 9 )
+    {
+        gamelevel = 2;
+    }
+    else if( scoreCounter >= 9 && scoreCounter < 12 )
+    {
+        gamelevel = 3;
+    }
+    else if( scoreCounter >= 12 )
+    {
+        gamelevel = 4;
     }
 }
 

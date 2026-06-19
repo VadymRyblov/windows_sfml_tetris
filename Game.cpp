@@ -10,15 +10,22 @@ Game::Game() :
         window( sf::VideoMode( sf::Vector2u( widthWindow, heightWindow ) ), "Tetris" )
     ,   scoreText(m_font)
     ,   levelText(m_font)
+    ,   timeText(m_font)
+    ,   bestScoreText(m_font)
+    ,   recordTimeText(m_font)
 {
     if( !m_font.openFromFile("../fonts/DynaPuff-VariableFont_wdth,wght.ttf") )
     {
         std::cerr << "Error: Failed to load font" << std::endl;
     }
     figure = createNewFigure( getRandomNumber() );
+    readPlayerData();
 
     scoreText = settingsText( 5, 45 );
     levelText = settingsText( 150, 45 );
+    timeText = settingsText( 295, 45 );
+    bestScoreText = settingsText( 5, -740 );
+    recordTimeText = settingsText( 5, -790 );
 }
 
 /*============================================================================*/
@@ -32,11 +39,11 @@ void Game::run()
 
 void Game::infiniteLoop()
 {
-    sf::Clock clock;
+    sf::Clock fallingTimer;
 
     while( window.isOpen() )
     {
-        sf::Time elapsed = clock.getElapsedTime();
+        sf::Time fallingTimerElapsed = fallingTimer.getElapsedTime();
 
         gameOverLogic();
         gameLevelLogic();
@@ -47,12 +54,12 @@ void Game::infiniteLoop()
             needNewFigure = false;
         }
 
-        if ( elapsed >= sf::milliseconds( levelSpeeds[ gamelevel ] ) )
+        if ( fallingTimerElapsed >= sf::milliseconds( levelSpeeds[ gameLevel ] ) )
         {
             if ( figure->isPathClear( Direction::Down ) )
             {
                 figure->moveFigure();
-                clock.restart();
+                fallingTimer.restart();
             }
         }
 
@@ -100,11 +107,19 @@ void Game::infiniteLoop()
         figure->drawFigure();
         figure->clearFilledRow( scoreCounter );
 
+        int seconds = globalTimer.getElapsedTime().asSeconds();
+
         scoreText.setString("Score: " + std::to_string(scoreCounter));
-        levelText.setString("Level: " + std::to_string(gamelevel + 1));
+        levelText.setString("Level: " + std::to_string(gameLevel + 1));
+        timeText.setString("Time: " + std::to_string(seconds));
+        bestScoreText.setString("Best score: " + std::to_string(savedBestScore));
+        recordTimeText.setString("Time: " + std::to_string(savedRecordTime) + "s");
 
         window.draw(scoreText);
         window.draw(levelText);
+        window.draw(timeText);
+        window.draw(bestScoreText);
+        window.draw(recordTimeText);
 
         window.display();
         sf::sleep(sf::milliseconds(16));
@@ -160,6 +175,8 @@ void Game::gameOverLogic()
         ||  map.getMainMatrix()[ 0 ][ cols / 2 ] == 1
     )
     {
+        savePlayerData();
+
         sf::Text gameOverText( m_font );
         gameOverText.setString("Game Over");
         gameOverText.setCharacterSize(60);
@@ -184,6 +201,7 @@ void Game::gameOverLogic()
             window.clear( BACKGROUND_COLOR );
             window.draw( gameOverText );
             window.display();
+
             sf::sleep(sf::milliseconds(16));
         }
     }
@@ -195,19 +213,55 @@ void Game::gameLevelLogic()
 {
     if( scoreCounter >= 3 && scoreCounter < 6 )
     {
-        gamelevel = 1;
+        gameLevel = 1;
     }
     else if( scoreCounter >= 6 && scoreCounter < 9 )
     {
-        gamelevel = 2;
+        gameLevel = 2;
     }
     else if( scoreCounter >= 9 && scoreCounter < 12 )
     {
-        gamelevel = 3;
+        gameLevel = 3;
     }
     else if( scoreCounter >= 12 )
     {
-        gamelevel = 4;
+        gameLevel = 4;
+    }
+}
+
+/*============================================================================*/
+
+void Game::readPlayerData()
+{
+    std::ifstream file("../playerData.txt");
+    if( file.is_open() )
+    {
+        std::string label;
+
+        file >> label >> label >> savedBestScore;
+        file >> label >> label >> savedRecordTime;
+    }
+    else
+    {
+        std::cerr << "Error: Failed to open playerData.txt" << std::endl;
+        return;
+    }
+}
+
+/*============================================================================*/
+
+void Game::savePlayerData()
+{
+    if (scoreCounter > savedBestScore)
+    {
+        std::ofstream file("../playerData.txt");
+        if (file.is_open())
+        {
+            int currentSeconds = globalTimer.getElapsedTime().asSeconds();
+
+            file << "Best score: " << scoreCounter << "\n";
+            file << "Record time: " << currentSeconds << "s" << "\n";
+        }
     }
 }
 

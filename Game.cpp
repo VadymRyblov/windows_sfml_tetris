@@ -21,11 +21,22 @@ Game::Game() :
     figure = createNewFigure( getRandomNumber() );
     readPlayerData();
 
-    scoreText = settingsText( 5, 45 );
-    levelText = settingsText( 150, 45 );
-    timeText = settingsText( 295, 45 );
-    bestScoreText = settingsText( 5, -740 );
-    recordTimeText = settingsText( 5, -790 );
+    size_t sidebarX = 50;
+
+    //Current game
+    scoreText      = settingsText( sidebarX, 120 );
+    levelText      = settingsText( sidebarX, 165 );
+    timeText       = settingsText( sidebarX, 210 );
+
+    //Records
+    bestScoreText  = settingsText( sidebarX, 320 );
+    recordTimeText = settingsText( sidebarX, 365 );
+
+    border.setSize( sf::Vector2f( sidebarWidth - 22, boardHeight - 350 ) );
+    border.setPosition( sf::Vector2f( 40, marginY + 3 ) );
+    border.setFillColor( sf::Color::Transparent );
+    border.setOutlineColor( sf::Color::Cyan );
+    border.setOutlineThickness( 2 );
 }
 
 /*============================================================================*/
@@ -103,6 +114,7 @@ void Game::infiniteLoop()
 
         window.clear( BACKGROUND_COLOR );
         map.drawGrid( window );
+        map.drawSidebar( window );
         figure->drawMainMatrix();
         figure->drawFigure();
         figure->clearFilledRow( scoreCounter );
@@ -115,6 +127,7 @@ void Game::infiniteLoop()
         bestScoreText.setString("Best score: " + std::to_string(savedBestScore));
         recordTimeText.setString("Time: " + std::to_string(savedRecordTime) + "s");
 
+        window.draw(border);
         window.draw(scoreText);
         window.draw(levelText);
         window.draw(timeText);
@@ -144,7 +157,11 @@ sf::Text Game::settingsText( size_t x, size_t y )
     sf::Text text( m_font );
     text.setCharacterSize(26);
     text.setFillColor(sf::Color::White);
-    text.setPosition(sf::Vector2f( margin + x, margin - y ) );
+    text.setPosition( 
+        sf::Vector2f( 
+            static_cast<float>(x)
+        ,   static_cast<float>(y) )
+    );
 
     return text;
 }

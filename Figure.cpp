@@ -43,26 +43,26 @@ void Figure::drawFigure()
     cell.setFillColor( m_color );
 
     cell.setPosition( sf::Vector2f(
-            margin + x1 * blockSize + marginInside2f
-        ,   margin + y1 * blockSize + marginInside2f
+            boardStartX + x1 * blockSize + marginInside2f
+        ,   marginY + y1 * blockSize + marginInside2f
     ) );
     m_window.draw(cell);
 
     cell.setPosition( sf::Vector2f(
-            margin + x2 * blockSize + marginInside2f
-        ,   margin + y2 * blockSize + marginInside2f
+            boardStartX + x2 * blockSize + marginInside2f
+        ,   marginY + y2 * blockSize + marginInside2f
     ) );
     m_window.draw(cell);
 
     cell.setPosition( sf::Vector2f(
-            margin + x3 * blockSize + marginInside2f
-        ,   margin + y3 * blockSize + marginInside2f
+            boardStartX + x3 * blockSize + marginInside2f
+        ,   marginY + y3 * blockSize + marginInside2f
     ) );
     m_window.draw(cell);
 
     cell.setPosition( sf::Vector2f(
-            margin + x4 * blockSize + marginInside2f
-        ,   margin + y4 * blockSize + marginInside2f
+            boardStartX + x4 * blockSize + marginInside2f
+        ,   marginY + y4 * blockSize + marginInside2f
     ) );
     m_window.draw(cell);
 }
@@ -153,8 +153,8 @@ void Figure::drawMainMatrix()
                 cell.setOutlineColor(OUTLINE_COLOR);
                 cell.setFillColor( m_coloredFiguresMatrix[y][x] );
                 cell.setPosition( sf::Vector2f(
-                    margin + x * blockSize + marginInside2f,
-                    margin + y * blockSize + marginInside2f
+                    boardStartX + x * blockSize + marginInside2f,
+                    marginY + y * blockSize + marginInside2f
                 ) );
                 m_window.draw(cell);
             }

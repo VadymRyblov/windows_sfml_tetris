@@ -60,4 +60,6 @@ private:
     sf::Text timeText; //probably it's better to use std::optional here, check later
     sf::Text bestScoreText; //probably it's better to use std::optional here, check later
     sf::Text recordTimeText; //probably it's better to use std::optional here, check later
+
+    sf::RectangleShape border;
 };

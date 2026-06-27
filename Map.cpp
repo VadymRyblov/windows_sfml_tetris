@@ -29,8 +29,8 @@ void Map::drawGrid(sf::RenderWindow & _window)
             float marginInside = 4.0f; // увеличенный отступ
             sf::RectangleShape cell(sf::Vector2f(blockSize - marginInside, blockSize - marginInside));
             cell.setPosition( sf::Vector2f(
-                margin + x * blockSize + marginInside / 2,
-                margin + y * blockSize + marginInside / 2
+                boardStartX + x * blockSize + marginInside / 2,
+                marginY + y * blockSize + marginInside / 2
             ) );
             cell.setOutlineThickness(1);
             cell.setOutlineColor(OUTLINE_COLOR);
@@ -38,6 +38,16 @@ void Map::drawGrid(sf::RenderWindow & _window)
             _window.draw(cell);
         }
     }
+}
+
+/*============================================================================*/
+
+void Map::drawSidebar(sf::RenderWindow & _window)
+{
+    sf::RectangleShape sidebar( sf::Vector2f( sidebarWidth, heightWindow ) );
+    sidebar.setPosition( sf::Vector2f( 0, 0 ) );
+    sidebar.setFillColor( BACKGROUND_COLOR );
+    _window.draw( sidebar );
 }
 
 /*============================================================================*/
